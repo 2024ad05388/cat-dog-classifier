@@ -38,7 +38,7 @@ uploaded_file = st.file_uploader("Upload a photo of a cat or dog", type=["jpg", 
 
 if uploaded_file is not None:
     img = Image.open(uploaded_file).convert('RGB')
-    st.image(img, caption="Uploaded Image", use_column_width=True)
+    st.image(img, caption="Uploaded Image", use_container_width=True)
 
     img_tensor = transform(img).unsqueeze(0)
     with torch.no_grad():

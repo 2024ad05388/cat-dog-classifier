@@ -3,16 +3,22 @@ import torch
 import torch.nn as nn
 from torchvision import models, transforms
 from PIL import Image
+from huggingface_hub import hf_hub_download
 
-# Page config
 st.set_page_config(page_title="Cat vs Dog Classifier", page_icon="🐾")
 
-@st.cache_resource  # loads the model once, not on every interaction
+@st.cache_resource
 def load_model():
     device = torch.device('cpu')
+
+    model_path = hf_hub_download(
+        repo_id="Ak0026/cat-dog-classifier-model",
+        filename="cat_dog_model.pth"
+    )
+
     model = models.resnet18(weights=None)
     model.fc = nn.Linear(model.fc.in_features, 2)
-    model.load_state_dict(torch.load('cat_dog_model.pth', map_location=device))
+    model.load_state_dict(torch.load(model_path, map_location=device))
     model.eval()
     return model
 
